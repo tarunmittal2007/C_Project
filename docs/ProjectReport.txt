@@ -7,7 +7,7 @@ Project Title: vehicle toll control system
 Student Names: Tarun Mittal 
 Sap id : 590024396
 Semester: 1ST 
-------------------------------------------------------------------------------------------------0---
+---------------------------------------------------------------------------------------------------
 1. ABSTRACT :  
 
 The VEHICLE TOLL CONTROL SYSTEM is a console based program written in C programming language 
