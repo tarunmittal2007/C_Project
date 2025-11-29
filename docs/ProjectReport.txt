@@ -38,7 +38,7 @@ To develop a C program that automates toll collection with the features:
 3.	Generate toll receipt providing the summary for any selected date . 
 4.	Store all the details permanently in a file using file handling. 
 ------------------------------------------------------------------------------------------------------------------
-SYSTEM DESIGN AND ALGORITHM 
+3. SYSTEM DESIGN AND ALGORITHM 
 
 ALGORITHM : 
 1 START 
@@ -77,3 +77,196 @@ Algorithm 3: Print Receipt
 8.	Close the file "toll_records.txt"
 9.	Display the amount collected by the different modes of payment separately and the total amount collected 
 ------------------------------------------------------------------------------------------------------------
+4. IMPLEMENTAQTION DETAILS:
+
+FILE STRUCTURE : 
+/src
+      main.c
+      tollsystem.c
+      utils.c
+/include
+      tollsystem.h
+      utils.h
+/docs
+      ProjectReport.txt
+***************************************************************
+STRUCTURE USED TO STORE TOLL REOCRD 
+struct VehicleRecord {
+char date[20];
+char vehicleNumber[20];
+float amount;  
+char paymentMode[20];
+};
+
+FUNCTION TO ENTER DATE 
+void inputDate(char *date) 
+{
+printf("Enter Date in the format (DD-MM-YYYY): ");
+scanf("%s", date);
+}
+***************************************************************
+TOLL COLLECTION FUNCTION 
+void TollCollection(char *date) 
+{
+struct VehicleRecord record; 
+strcpy(record.date,date); 
+printf("\n--- Toll Deduction ---\n");
+printf("Enter Vehicle Number: ");
+scanf("%s",record.vehicleNumber);
+printf("Enter Amount: ");
+scanf("%f",&record.amount);
+int modeChoice;
+printf("Select Mode of Payment:\n");
+printf("1. Cash\n2. Online\n3. Fastag\n4. Valid Toll Pass\n");
+printf("Enter choice: ");
+scanf("%d",&modeChoice);
+
+switch(modeChoice) 
+{
+case 1: strcpy(record.paymentMode, "Cash"); break;
+case 2: strcpy(record.paymentMode, "Online"); break;
+case 3: strcpy(record.paymentMode, "Fastag"); break;
+case 4: strcpy(record.paymentMode, "TollPass"); break;
+default: strcpy(record.paymentMode, "Cash"); break;
+}
+
+FILE *details = fopen("toll_records.txt","a");
+if(details == NULL) 
+{
+printf("Error opening file!\n");
+return;
+}
+fprintf(details,"%s | %s | %.2f | %s\n",record.date,record.vehicleNumber,record.amount,record.paymentMode);
+fclose(details);
+printf("Toll Deduction Recorded Successfully!\n");
+}
+**************************************************************
+FUNTION TO SHOW DAILY VEHICLE HISTORY 
+void ShowHistory() 
+{
+char searchDate[20];
+printf("\nEnter date to view history (DD-MM-YYYY): ");
+scanf("%s",searchDate);
+FILE *details = fopen("toll_records.txt","r");
+if(details == NULL) 
+{
+printf("No records found!\n");
+return;
+}
+
+char date[20],vehicle[20],mode[20];
+float amount;
+int found = 0;
+
+printf("\n--- Toll History for %s ---\n",searchDate);
+while(fscanf(details, "%s | %s | %f | %s",date,vehicle,&amount,mode) != EOF) 
+{
+if(strcmp(date,searchDate) == 0) 
+{
+found = 1;
+printf("Vehicle: %s | Amount: %.2f | Mode: %s\n",vehicle,amount,mode);
+}
+}
+
+if(!found) 
+printf("No records found for this date.\n");
+
+fclose(details);
+}
+*************************************************************
+FUNTION FOR DAILY RECIEPT SUMMARY 
+void dailyReceipt() 
+{
+char searchDate[20];
+printf("\nEnter date for receipt (DD-MM-YYYY): ");
+scanf("%s",searchDate);
+
+FILE *details = fopen("toll_records.txt","r"); 
+if(details == NULL) 
+{
+printf("No records found!\n");
+return;
+}
+
+float cash = 0, online = 0, fastag = 0, pass = 0, amount;
+char date[20], vehicle[20], mode[20];
+int found = 0;
+
+while(fscanf(details,"%s | %s | %f | %s",date,vehicle,&amount,mode) != EOF) 
+{
+if(strcmp(date,searchDate) == 0) 
+{
+found = 1;
+if(strcmp(mode,"Cash") == 0) 
+cash += amount;
+else if(strcmp(mode,"Online") == 0) 
+online += amount;
+else if(strcmp(mode,"Fastag") == 0) 
+fastag += amount;
+else if(strcmp(mode,"TollPass") == 0) 
+pass += amount;
+}
+}
+
+fclose(details);
+
+if(!found) 
+{
+printf("No data found for this date.\n");
+return;
+}
+
+float total = cash + online + fastag + pass; 
+printf("\n===== Toll Receipt for %s =====\n", searchDate);
+printf("Cash Collection      : %.2f\n", cash);
+printf("Online Collection    : %.2f\n", online);
+printf("Fastag Collection    : %.2f\n", fastag);
+printf("Toll Pass Collection : %.2f\n", pass);
+printf("-----------------------------------\n");
+printf("TOTAL COLLECTION     : %.2f\n", total);
+printf("===================================\n");
+}
+--------------------------------------------------------------------------
+5. TESTING AND RESULT : 
+
+COMMANDS TO RUN THE CODE ON THE TERMINAL
+
+STEP 1 . Compile the program using 
+gcc src/main.c src/tollsystem.c src/utils.c -I include -o toll_system
+STEP 2 . Run the Program using 
+./toll_system
+
+Now check functions one by one 
+1.	Execute the first option and add some vehicle toll collection details 
+2.	Execute the second option and enter the 
+3.	Execute the third option and enter the date 
+
+RESULT :
+All features of the Toll Control System worked successfully:
+•	Toll entries were stored correctly.
+•	Searching by date showed accurate results.
+•	Daily receipt summary calculated correct totals.
+•	No crashes or wrong outputs were observed during testing.
+The system is fully functional for basic toll management operations.
+-------------------------------------------------------------------------------
+6. CONCLUSION  : 
+•	The Toll Control System developed in C successfully automates the basic 
+operations of a toll booth. It records vehicle details, stores the data safely in 
+a text file, displays the complete history of a particular day, and generates a 
+receipt showing the total collection.
+•	The project reduces manual work, avoids calculation mistakes, and ensures 
+that every toll entry is stored in an organized way. Overall, the system meets its 
+main objective of making toll management simple, accurate, and easy to use.
+--------------------------------------------------------------------------------
+7. FUTURE WORK : 
+1.	Implement a graphical user interface (GUI)
+2.	Automatic toll calculation 
+3.	Integration with FASTag system : 
+The system can be connected with RFID/FASTag scanners for real-time automatic toll detection.
+4.	Data analytics and reports : 
+Features like hourly traffic count, busiest days, and monthly revenue charts can be added.
+------------------------------------------------------------------------------------
+8. REFERENCES : 
+Let Us C – Yashavant Kanetkar  
+Class notes by DR. TANU SINGH
+------------------------------------------------------------------------------------
