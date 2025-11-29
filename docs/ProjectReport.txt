@@ -1,0 +1,79 @@
+---------------------------------------------------------------------------------------------
+                                  PROJECT REPORT
+----------------------------------------------------------------------------------------------
+Course Code: CSEG1032
+Course Title: Programming in C
+Project Title: vehicle toll control system 
+Student Names: Tarun Mittal 
+Sap id : 590024396
+Semester: 1ST 
+------------------------------------------------------------------------------------------------0---
+1. ABSTRACT :  
+
+The VEHICLE TOLL CONTROL SYSTEM is a console based program written in C programming language 
+to control all the management of the toll booth . 
+
+The system helps to record the history of the vehicles passing through the toll booth on the 
+basis of date of the day . 
+
+The system also helps to calculate the amount collected at the toll booth through the different 
+modes of the payments i.e. cash , online , fastag , toll pass , for the complete day .  On the 
+basis of the date and print the summary of the amount collected in the receipt format . 
+
+The main  aim of the project is to make the collection easier , faster and more organised compared
+to doing everything manually .
+---------------------------------------------------------------------------------------------------------------
+2. PROBLEM DEFINATION : 
+
+Since manual toll management is slow , error-prone , and difficult to maintain the history record .  
+Common issues include :
+•	Difficulty in generating the daily report . 
+•	Manual calculation of the amount can be difficult . 
+•	Lack of automated receipt generation . 
+
+Objective:
+To develop a C program that automates toll collection with the features:
+1.	Add new vehicle toll entry and amount collection .  
+2.	Retrieve daily toll history by date .  
+3.	Generate toll receipt providing the summary for any selected date . 
+4.	Store all the details permanently in a file using file handling. 
+------------------------------------------------------------------------------------------------------------------
+SYSTEM DESIGN AND ALGORITHM 
+
+ALGORITHM : 
+1 START 
+2 INPUT THE DATE FROM THE USER 
+3 DISPLAY THE MAIN MENU ON THE TERMINAL 
+Toll collection for vehicle , show day history , print receipt for the amount summary according to the date , exit 
+4 PERFORM THE TASK SELECTED BY THE USER  UNTIL THE USER SELECTS 4.EXIT  
+5 STOP 
+
+Algorithm 1: Toll collection for vehicle
+1.	Input vehicle number 
+2.	Date to be filled automatically as inputed by the user in the starting
+3.	Enter the toll amount to be paid 
+4.	Enter the mode  of payment 
+5.	Open the file "toll_records.txt" in append mode.
+6.	Store  date | vehicle number | toll amount | mode of payment 
+7.	Close the file 
+
+Algorithm 2: Search History by Date
+1.	Input date from user
+2.	Open "toll_records.txt" in read mode
+3.	Read each record until the end of the file 
+4.	Compare stored date with user input date 
+5.	Print all matching records
+6.	Display the number of vehicles passed that day with the amount paid by them 
+7.	Close file
+
+Algorithm 3: Print Receipt 
+1.	Input date from the user
+2.	Open "toll_records.txt" in read mode
+3.	Read each record until the end of the file 
+4.	Compare stored date with user input date  
+5.	Read all matching records
+6.	Calculate the amount paid by the different modes of payment separately 
+7.	Calculate the total amount collected that day 
+8.	Close the file "toll_records.txt"
+9.	Display the amount collected by the different modes of payment separately and the total amount collected 
+------------------------------------------------------------------------------------------------------------
